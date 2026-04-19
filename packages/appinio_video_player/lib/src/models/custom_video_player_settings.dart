@@ -122,14 +122,20 @@ class CustomVideoPlayerSettings {
   /// UI settings for the video settings popup.
   final CustomVideoPlayerPopupSettings customVideoPlayerPopupSettings;
 
+  /// Callback when "Switch to Audio/Video" is tapped in settings. If null, the option is hidden.
+  final VoidCallback? onSwitchToAudioVideoTapped;
+
+  /// Whether the player is currently in audio mode. Controls the label shown.
+  final bool isAudioMode;
+
   const CustomVideoPlayerSettings({
-    this.showMuteButton = true,
+    this.showMuteButton = false,
     this.allowVolumeOnSlide = true,
     this.customAspectRatio,
     this.placeholderWidget,
     this.thumbnailWidget,
     this.seekDuration = const Duration(seconds: 10),
-    this.showSeekButtons = false,
+    this.showSeekButtons = true,
     this.alwaysShowThumbnailOnVideoPaused = false,
     this.controlsPadding = const EdgeInsets.all(5),
     this.controlBarPadding = const EdgeInsets.all(5),
@@ -138,12 +144,7 @@ class CustomVideoPlayerSettings {
     this.settingsButton = const CustomVideoPlayerSettingsButton(),
     this.enterFullscreenButton = const CustomVideoPlayerEnterFullscreenButton(),
     this.exitFullscreenButton = const CustomVideoPlayerExitFullscreenButton(),
-    this.controlBarDecoration = const BoxDecoration(
-      color: Color.fromRGBO(0, 0, 0, 0.5),
-      borderRadius: BorderRadius.all(
-        Radius.circular(10),
-      ),
-    ),
+    this.controlBarDecoration = const BoxDecoration(),
     this.durationPlayedTextStyle = const TextStyle(
       color: Colors.white,
       fontSize: 14,
@@ -157,11 +158,11 @@ class CustomVideoPlayerSettings {
     this.customVideoPlayerProgressBarSettings =
         const CustomVideoPlayerProgressBarSettings(),
     this.showDurationPlayed = true,
-    this.showDurationRemaining = true,
+    this.showDurationRemaining = false,
     this.controlBarAvailable = true,
     this.enterFullscreenOnStart = false,
     this.exitFullscreenOnEnd = false,
-    this.showPlayButton = true,
+    this.showPlayButton = false,
     this.playOnlyOnce = false,
     this.autoFadeOutControls = true,
     this.durationAfterControlsFadeOut = const Duration(seconds: 3),
@@ -179,5 +180,7 @@ class CustomVideoPlayerSettings {
     ),
     this.customVideoPlayerPopupSettings =
         const CustomVideoPlayerPopupSettings(),
+    this.onSwitchToAudioVideoTapped,
+    this.isAudioMode = false,
   });
 }
