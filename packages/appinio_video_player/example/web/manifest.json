@@ -1,6 +1,6 @@
 {
-    "name": "example",
-    "short_name": "example",
+    "name": "appinio_example",
+    "short_name": "appinio_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
