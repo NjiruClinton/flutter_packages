@@ -1,4 +1,5 @@
 import 'package:appinio_video_player/src/controls/all_controls_overlay.dart';
+import 'package:appinio_video_player/src/controls/progress_bar.dart';
 import 'package:appinio_video_player/src/custom_video_player_controller.dart';
 import 'package:appinio_video_player/src/seek_buttons.dart';
 import 'package:appinio_video_player/src/thumbnail.dart';
@@ -74,6 +75,18 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
             VolumeControls(
               customVideoPlayerController: widget.customVideoPlayerController,
             ),
+            // Progress bar at the very bottom edge
+            if (widget.customVideoPlayerController.customVideoPlayerSettings
+                .customVideoPlayerProgressBarSettings.showProgressBar)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: CustomVideoPlayerProgressBar(
+                  customVideoPlayerController:
+                      widget.customVideoPlayerController,
+                ),
+              ),
           ],
         ),
       );
