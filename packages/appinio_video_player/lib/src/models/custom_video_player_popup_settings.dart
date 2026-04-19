@@ -4,6 +4,8 @@ class CustomVideoPlayerPopupSettings {
   final String popupTitle;
   final String popupQualityTitle;
   final String popupPlaybackSpeedTitle;
+  final String popupSwitchToAudioTitle;
+  final String popupSwitchToVideoTitle;
   final String defaultPlaybackspeedDescription;
   final TextStyle popupTitleTextStyle;
   final BoxDecoration popupDecoration;
@@ -16,6 +18,8 @@ class CustomVideoPlayerPopupSettings {
     this.popupTitle = 'Video Settings',
     this.popupQualityTitle = 'Video Quality',
     this.popupPlaybackSpeedTitle = 'Playback Speed',
+    this.popupSwitchToAudioTitle = 'Switch to Audio',
+    this.popupSwitchToVideoTitle = 'Switch to Video',
     this.popupTitleTextStyle = const TextStyle(
       color: Colors.white,
       fontSize: 18,

@@ -122,6 +122,12 @@ class CustomVideoPlayerSettings {
   /// UI settings for the video settings popup.
   final CustomVideoPlayerPopupSettings customVideoPlayerPopupSettings;
 
+  /// Callback when "Switch to Audio/Video" is tapped in settings. If null, the option is hidden.
+  final VoidCallback? onSwitchToAudioVideoTapped;
+
+  /// Whether the player is currently in audio mode. Controls the label shown.
+  final bool isAudioMode;
+
   const CustomVideoPlayerSettings({
     this.showMuteButton = false,
     this.allowVolumeOnSlide = true,
@@ -174,5 +180,7 @@ class CustomVideoPlayerSettings {
     ),
     this.customVideoPlayerPopupSettings =
         const CustomVideoPlayerPopupSettings(),
+    this.onSwitchToAudioVideoTapped,
+    this.isAudioMode = false,
   });
 }
