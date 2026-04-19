@@ -71,9 +71,9 @@ class VideoSettingsDialog extends StatelessWidget {
                     isQuality: false,
                   ),
                 ),
-                // if (customVideoPlayerController
-                //         .customVideoPlayerSettings.onSwitchToAudioVideoTapped !=
-                //     null)
+                if (customVideoPlayerController
+                        .customVideoPlayerSettings.onSwitchToAudioVideoTapped !=
+                    null)
                   VideoSettingsDialogItem(
                     title: customVideoPlayerController
                             .customVideoPlayerSettings.isAudioMode
