@@ -94,7 +94,8 @@ class _VideoProgressIndicatorState extends State<CustomVideoPlayerProgressBar> {
             final double thumbSize = _areControlsVisible ? 12.0 : 0.0;
             final double barHeight = settings.progressBarHeight;
             // Total height includes space for the thumb to extend above/below
-            final double totalHeight = _areControlsVisible ? thumbSize + 4 : barHeight;
+            // final double totalHeight = _areControlsVisible ? thumbSize + 4 : barHeight;
+            final double totalHeight = barHeight;
 
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -126,6 +127,7 @@ class _VideoProgressIndicatorState extends State<CustomVideoPlayerProgressBar> {
                 width: totalWidth,
                 height: totalHeight,
                 child: Stack(
+                  clipBehavior: Clip.none,
                   alignment: Alignment.centerLeft,
                   children: [
                     // Background bar

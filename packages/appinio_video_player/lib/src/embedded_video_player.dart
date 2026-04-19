@@ -45,6 +45,7 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
                 widget.customVideoPlayerController.videoPlayerController.value
                     .aspectRatio,
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Container(
               color: CupertinoColors.black,
