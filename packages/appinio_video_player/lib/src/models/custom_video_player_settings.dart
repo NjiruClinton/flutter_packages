@@ -128,6 +128,24 @@ class CustomVideoPlayerSettings {
   /// Whether the player is currently in audio mode. Controls the label shown.
   final bool isAudioMode;
 
+  /// The widget shown for the seek-backward button in the center controls.
+  final Widget seekBackwardIcon;
+
+  /// The widget shown for the seek-forward button in the center controls.
+  final Widget seekForwardIcon;
+
+  /// The widget shown for the center play button (when paused) in the seek area.
+  final Widget centerPlayButton;
+
+  /// The widget shown for the center pause button (when playing) in the seek area.
+  final Widget centerPauseButton;
+
+  /// The size of the seek backward/forward circular buttons.
+  final double seekButtonSize;
+
+  /// The size of the center play/pause circular button.
+  final double centerPlayButtonSize;
+
   const CustomVideoPlayerSettings({
     this.showMuteButton = false,
     this.allowVolumeOnSlide = true,
@@ -182,5 +200,11 @@ class CustomVideoPlayerSettings {
         const CustomVideoPlayerPopupSettings(),
     this.onSwitchToAudioVideoTapped,
     this.isAudioMode = false,
+    this.seekBackwardIcon = const Icon(Icons.fast_rewind_rounded, color: Colors.white, size: 32),
+    this.seekForwardIcon = const Icon(Icons.fast_forward_rounded, color: Colors.white, size: 32),
+    this.centerPlayButton = const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 42),
+    this.centerPauseButton = const Icon(Icons.pause_rounded, color: Colors.white, size: 42),
+    this.seekButtonSize = 48,
+    this.centerPlayButtonSize = 64,
   });
 }

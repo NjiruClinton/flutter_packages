@@ -53,6 +53,7 @@ class _SeekButtonsState extends State<SeekButtons> {
 
   @override
   Widget build(BuildContext context) {
+    final settings = widget.customVideoPlayerController.customVideoPlayerSettings;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       reverseDuration: const Duration(milliseconds: 300),
@@ -63,26 +64,23 @@ class _SeekButtonsState extends State<SeekButtons> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildCircularButton(
-                    icon: Icons.fast_rewind_rounded,
+                    child: settings.seekBackwardIcon,
                     onTap: onSeekForward,
-                    size: 48,
-                    iconSize: 32,
+                    size: settings.seekButtonSize,
                   ),
                   const SizedBox(width: 32),
                   _buildCircularButton(
-                    icon: _isPlaying
-                        ? Icons.pause_rounded
-                        : Icons.play_arrow_rounded,
+                    child: _isPlaying
+                        ? settings.centerPauseButton
+                        : settings.centerPlayButton,
                     onTap: () => _playPause(_isPlaying),
-                    size: 64,
-                    iconSize: 42,
+                    size: settings.centerPlayButtonSize,
                   ),
                   const SizedBox(width: 32),
                   _buildCircularButton(
-                    icon: Icons.fast_forward_rounded,
+                    child: settings.seekForwardIcon,
                     onTap: onSeekBack,
-                    size: 48,
-                    iconSize: 32,
+                    size: settings.seekButtonSize,
                   ),
                 ],
               ),
@@ -92,10 +90,9 @@ class _SeekButtonsState extends State<SeekButtons> {
   }
 
   Widget _buildCircularButton({
-    required IconData icon,
+    required Widget child,
     required VoidCallback onTap,
     required double size,
-    required double iconSize,
   }) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -107,11 +104,7 @@ class _SeekButtonsState extends State<SeekButtons> {
           shape: BoxShape.circle,
           color: Color.fromRGBO(0, 0, 0, 0.35),
         ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: iconSize,
-        ),
+        child: Center(child: child),
       ),
     );
   }
