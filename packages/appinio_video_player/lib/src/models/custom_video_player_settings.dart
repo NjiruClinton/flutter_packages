@@ -146,6 +146,18 @@ class CustomVideoPlayerSettings {
   /// The size of the center play/pause circular button.
   final double centerPlayButtonSize;
 
+  /// Callback when the Chromecast button is tapped. If null, the button is hidden.
+  final VoidCallback? onChromecastTapped;
+
+  /// The widget shown for the Chromecast button. Customizable from usage side.
+  final Widget chromecastButton;
+
+  /// Callback when the Closed Captions button is tapped. If null, the button is hidden.
+  final VoidCallback? onClosedCaptionsTapped;
+
+  /// The widget shown for the Closed Captions button. Customizable from usage side.
+  final Widget closedCaptionsButton;
+
   const CustomVideoPlayerSettings({
     this.showMuteButton = false,
     this.allowVolumeOnSlide = true,
@@ -206,5 +218,9 @@ class CustomVideoPlayerSettings {
     this.centerPauseButton = const Icon(Icons.pause_rounded, color: Colors.white, size: 42),
     this.seekButtonSize = 48,
     this.centerPlayButtonSize = 64,
+    this.onChromecastTapped,
+    this.chromecastButton = const Icon(Icons.cast, color: Colors.white, size: 22),
+    this.onClosedCaptionsTapped,
+    this.closedCaptionsButton = const Icon(Icons.closed_caption, color: Colors.white, size: 22),
   });
 }
