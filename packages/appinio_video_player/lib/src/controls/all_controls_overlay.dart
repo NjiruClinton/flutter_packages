@@ -50,16 +50,45 @@ class _AllControlsOverlayState extends State<AllControlsOverlay> {
           child: _controlsVisible
               ? Column(
                   children: [
-                    if (widget.customVideoPlayerController
-                        .customVideoPlayerSettings.settingsButtonAvailable)
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: VideoSettingsButton(
-                          customVideoPlayerController:
-                              widget.customVideoPlayerController,
-                          updateVideoState: widget.updateVideoState,
-                        ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (widget.customVideoPlayerController.customVideoPlayerSettings.onChromecastTapped !=
+                              null)
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: widget.customVideoPlayerController.customVideoPlayerSettings.onChromecastTapped,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                child: widget.customVideoPlayerController.customVideoPlayerSettings.chromecastButton,
+                              ),
+                            ),
+                          if (widget.customVideoPlayerController.customVideoPlayerSettings.onClosedCaptionsTapped != null)
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: widget.customVideoPlayerController.customVideoPlayerSettings.onClosedCaptionsTapped,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                child: widget.customVideoPlayerController.customVideoPlayerSettings.closedCaptionsButton,
+                              ),
+                            ),
+                          if (widget.customVideoPlayerController.customVideoPlayerSettings.settingsButtonAvailable)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: VideoSettingsButton(
+                                customVideoPlayerController:
+                                    widget.customVideoPlayerController,
+                                updateVideoState: widget.updateVideoState,
+                              ),
+                            ),
+                        ],
                       ),
+                    ),
                     const Spacer(),
                     if (widget.customVideoPlayerController
                         .customVideoPlayerSettings.controlBarAvailable)
