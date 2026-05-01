@@ -13,12 +13,15 @@ class SeekButtons extends StatefulWidget {
 
 class _SeekButtonsState extends State<SeekButtons> {
   bool _areControlsVisible = true;
+  bool _isPlaying = false;
 
   @override
   void initState() {
     super.initState();
     _areControlsVisible =
         widget.customVideoPlayerController.areControlsVisible.value;
+    _isPlaying = widget
+        .customVideoPlayerController.videoPlayerController.value.isPlaying;
     widget.customVideoPlayerController.areControlsVisible.addListener(() {
       if (!mounted) return;
       setState(() {
@@ -26,49 +29,97 @@ class _SeekButtonsState extends State<SeekButtons> {
             widget.customVideoPlayerController.areControlsVisible.value;
       });
     });
+    widget.customVideoPlayerController.videoPlayerController
+        .addListener(_onVideoChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.customVideoPlayerController.videoPlayerController
+        .removeListener(_onVideoChanged);
+    super.dispose();
+  }
+
+  void _onVideoChanged() {
+    if (!mounted) return;
+    final playing = widget
+        .customVideoPlayerController.videoPlayerController.value.isPlaying;
+    if (playing != _isPlaying) {
+      setState(() {
+        _isPlaying = playing;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final settings = widget.customVideoPlayerController.customVideoPlayerSettings;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       reverseDuration: const Duration(milliseconds: 300),
       child: _areControlsVisible
           ? Center(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Material(
-                    color: Colors.black12,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    child: InkWell(
-                      onTap: onSeekForward,
-                      child: const Icon(
-                        Icons.rotate_left_sharp,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
+                  _buildCircularButton(
+                    child: settings.seekBackwardIcon,
+                    onTap: onSeekForward,
+                    size: settings.seekButtonSize,
                   ),
-                  Material(
-                    color: Colors.black12,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    child: InkWell(
-                      onTap: onSeekBack,
-                      child: const Icon(
-                        Icons.rotate_right_sharp,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
+                  const SizedBox(width: 32),
+                  _buildCircularButton(
+                    child: _isPlaying
+                        ? settings.centerPauseButton
+                        : settings.centerPlayButton,
+                    onTap: () => _playPause(_isPlaying),
+                    size: settings.centerPlayButtonSize,
+                  ),
+                  const SizedBox(width: 32),
+                  _buildCircularButton(
+                    child: settings.seekForwardIcon,
+                    onTap: onSeekBack,
+                    size: settings.seekButtonSize,
                   ),
                 ],
               ),
             )
           : null,
     );
+  }
+
+  Widget _buildCircularButton({
+    required Widget child,
+    required VoidCallback onTap,
+    required double size,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color.fromRGBO(0, 0, 0, 0.35),
+        ),
+        child: Center(child: child),
+      ),
+    );
+  }
+
+  Future<void> _playPause(bool isPlaying) async {
+    if (isPlaying) {
+      await widget.customVideoPlayerController.videoPlayerController.pause();
+    } else {
+      if (widget.customVideoPlayerController.customVideoPlayerSettings
+              .playOnlyOnce &&
+          widget.customVideoPlayerController.playedOnceNotifier.value) {
+        return;
+      }
+      await widget.customVideoPlayerController.videoPlayerController.play();
+    }
   }
 
   void onSeekBack() async {
