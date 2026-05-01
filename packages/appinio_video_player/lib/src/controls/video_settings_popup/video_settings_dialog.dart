@@ -71,25 +71,6 @@ class VideoSettingsDialog extends StatelessWidget {
                     isQuality: false,
                   ),
                 ),
-                if (customVideoPlayerController
-                        .customVideoPlayerSettings.onSwitchToAudioVideoTapped !=
-                    null)
-                  VideoSettingsDialogItem(
-                    title: customVideoPlayerController
-                            .customVideoPlayerSettings.isAudioMode
-                        ? customVideoPlayerController.customVideoPlayerSettings
-                            .customVideoPlayerPopupSettings.popupSwitchToVideoTitle
-                        : customVideoPlayerController.customVideoPlayerSettings
-                            .customVideoPlayerPopupSettings.popupSwitchToAudioTitle,
-                    popupSettings: customVideoPlayerController
-                        .customVideoPlayerSettings
-                        .customVideoPlayerPopupSettings,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      customVideoPlayerController
-                          .customVideoPlayerSettings.onSwitchToAudioVideoTapped!();
-                    },
-                  ),
               ],
             )
           ],

@@ -122,38 +122,14 @@ class CustomVideoPlayerSettings {
   /// UI settings for the video settings popup.
   final CustomVideoPlayerPopupSettings customVideoPlayerPopupSettings;
 
-  /// Callback when "Switch to Audio/Video" is tapped in settings. If null, the option is hidden.
-  final VoidCallback? onSwitchToAudioVideoTapped;
-
-  /// Whether the player is currently in audio mode. Controls the label shown.
-  final bool isAudioMode;
-
-  /// The widget shown for the seek-backward button in the center controls.
-  final Widget seekBackwardIcon;
-
-  /// The widget shown for the seek-forward button in the center controls.
-  final Widget seekForwardIcon;
-
-  /// The widget shown for the center play button (when paused) in the seek area.
-  final Widget centerPlayButton;
-
-  /// The widget shown for the center pause button (when playing) in the seek area.
-  final Widget centerPauseButton;
-
-  /// The size of the seek backward/forward circular buttons.
-  final double seekButtonSize;
-
-  /// The size of the center play/pause circular button.
-  final double centerPlayButtonSize;
-
   const CustomVideoPlayerSettings({
-    this.showMuteButton = false,
+    this.showMuteButton = true,
     this.allowVolumeOnSlide = true,
     this.customAspectRatio,
     this.placeholderWidget,
     this.thumbnailWidget,
     this.seekDuration = const Duration(seconds: 10),
-    this.showSeekButtons = true,
+    this.showSeekButtons = false,
     this.alwaysShowThumbnailOnVideoPaused = false,
     this.controlsPadding = const EdgeInsets.all(5),
     this.controlBarPadding = const EdgeInsets.all(5),
@@ -162,7 +138,12 @@ class CustomVideoPlayerSettings {
     this.settingsButton = const CustomVideoPlayerSettingsButton(),
     this.enterFullscreenButton = const CustomVideoPlayerEnterFullscreenButton(),
     this.exitFullscreenButton = const CustomVideoPlayerExitFullscreenButton(),
-    this.controlBarDecoration = const BoxDecoration(),
+    this.controlBarDecoration = const BoxDecoration(
+      color: Color.fromRGBO(0, 0, 0, 0.5),
+      borderRadius: BorderRadius.all(
+        Radius.circular(10),
+      ),
+    ),
     this.durationPlayedTextStyle = const TextStyle(
       color: Colors.white,
       fontSize: 14,
@@ -176,11 +157,11 @@ class CustomVideoPlayerSettings {
     this.customVideoPlayerProgressBarSettings =
         const CustomVideoPlayerProgressBarSettings(),
     this.showDurationPlayed = true,
-    this.showDurationRemaining = false,
+    this.showDurationRemaining = true,
     this.controlBarAvailable = true,
     this.enterFullscreenOnStart = false,
     this.exitFullscreenOnEnd = false,
-    this.showPlayButton = false,
+    this.showPlayButton = true,
     this.playOnlyOnce = false,
     this.autoFadeOutControls = true,
     this.durationAfterControlsFadeOut = const Duration(seconds: 3),
@@ -198,13 +179,5 @@ class CustomVideoPlayerSettings {
     ),
     this.customVideoPlayerPopupSettings =
         const CustomVideoPlayerPopupSettings(),
-    this.onSwitchToAudioVideoTapped,
-    this.isAudioMode = false,
-    this.seekBackwardIcon = const Icon(Icons.fast_rewind_rounded, color: Colors.white, size: 32),
-    this.seekForwardIcon = const Icon(Icons.fast_forward_rounded, color: Colors.white, size: 32),
-    this.centerPlayButton = const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 42),
-    this.centerPauseButton = const Icon(Icons.pause_rounded, color: Colors.white, size: 42),
-    this.seekButtonSize = 48,
-    this.centerPlayButtonSize = 64,
   });
 }

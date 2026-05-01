@@ -53,7 +53,7 @@ class _AllControlsOverlayState extends State<AllControlsOverlay> {
                     if (widget.customVideoPlayerController
                         .customVideoPlayerSettings.settingsButtonAvailable)
                       Align(
-                        alignment: Alignment.topRight,
+                        alignment: Alignment.topLeft,
                         child: VideoSettingsButton(
                           customVideoPlayerController:
                               widget.customVideoPlayerController,
