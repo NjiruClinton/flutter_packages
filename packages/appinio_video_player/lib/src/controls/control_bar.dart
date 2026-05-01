@@ -32,10 +32,8 @@ class CustomVideoPlayerControlBar extends StatelessWidget {
                     customVideoPlayerController.videoProgressNotifier,
                 builder: ((context, progress, child) {
                   return Text(
-                    getDurationAsString(progress) +
-                        " / " +
-                        getDurationAsString(customVideoPlayerController
-                            .videoPlayerController.value.duration),
+                    "${getDurationAsString(progress)} / ${getDurationAsString(customVideoPlayerController
+                            .videoPlayerController.value.duration)}",
                     style: customVideoPlayerController
                         .customVideoPlayerSettings.durationPlayedTextStyle,
                   );
