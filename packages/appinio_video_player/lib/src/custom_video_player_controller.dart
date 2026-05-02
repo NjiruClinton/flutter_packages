@@ -267,7 +267,7 @@ class CustomVideoPlayerController {
   }
 
   /// call dispose on the dispose method in your parent widget to be sure that every values is disposed
-  void dispose() {
+  void dispose({bool disposeVideoController = true}) {
     videoPlayerController.removeListener(_videoListeners);
     _timer?.cancel();
     _timer = null;
@@ -275,12 +275,14 @@ class CustomVideoPlayerController {
     _isPlayingNotifier.dispose();
     _videoProgressNotifier.dispose();
     _playbackSpeedNotifier.dispose();
-    videoPlayerController.dispose();
-    if (additionalVideoSources != null) {
-      if (additionalVideoSources!.isNotEmpty) {
-        for (MapEntry<String, CachedVideoPlayerController> videoSource
-            in additionalVideoSources!.entries) {
-          videoSource.value.dispose();
+    if (disposeVideoController) {
+      videoPlayerController.dispose();
+      if (additionalVideoSources != null) {
+        if (additionalVideoSources!.isNotEmpty) {
+          for (MapEntry<String, CachedVideoPlayerController> videoSource
+              in additionalVideoSources!.entries) {
+            videoSource.value.dispose();
+          }
         }
       }
     }
