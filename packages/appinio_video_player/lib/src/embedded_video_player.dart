@@ -84,16 +84,31 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
             VolumeControls(
               customVideoPlayerController: widget.customVideoPlayerController,
             ),
-            // Progress bar at the very bottom edge
+            // Progress bar at the very bottom edge — fades in/out together
+            // with the rest of the controls via [areControlsVisible].
             if (widget.customVideoPlayerController.customVideoPlayerSettings
                 .customVideoPlayerProgressBarSettings.showProgressBar)
               Positioned(
                 left: widget.isFullscreen ? 26 : 0,
                 right: widget.isFullscreen ? 26 : 0,
                 bottom: widget.isFullscreen ? 36 : 0,
-                child: CustomVideoPlayerProgressBar(
-                  customVideoPlayerController:
-                      widget.customVideoPlayerController,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable:
+                      widget.customVideoPlayerController.areControlsVisible,
+                  builder: (context, visible, child) {
+                    return IgnorePointer(
+                      ignoring: !visible,
+                      child: AnimatedOpacity(
+                        opacity: visible ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: CustomVideoPlayerProgressBar(
+                    customVideoPlayerController:
+                        widget.customVideoPlayerController,
+                  ),
                 ),
               ),
           ],
