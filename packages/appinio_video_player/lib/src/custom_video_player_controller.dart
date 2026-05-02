@@ -33,6 +33,22 @@ class CustomVideoPlayerController {
   final Map<String, CachedVideoPlayerController>? additionalVideoSources;
   final ValueNotifier<bool> areControlsVisible = ValueNotifier<bool>(true);
 
+  NavigatorState? _resolveNavigator({bool rootNavigator = false}) {
+    final configuredContext = customVideoPlayerSettings.navigatorContext;
+
+    if (configuredContext != null) {
+      final navigator = Navigator.maybeOf(
+        configuredContext,
+        rootNavigator: rootNavigator,
+      );
+      if (navigator != null) {
+        return navigator;
+      }
+    }
+
+    return Navigator.maybeOf(context, rootNavigator: rootNavigator);
+  }
+
   Future<void> switchSource(String sourceKey) async {
     assert(additionalVideoSources != null &&
         additionalVideoSources!.containsKey(sourceKey));
@@ -94,8 +110,14 @@ class CustomVideoPlayerController {
     _setOrientationForVideo();
     SystemChrome.setEnabledSystemUIMode(
         customVideoPlayerSettings.systemUIModeInsideFullscreen);
-    if(context.mounted){
-      await Navigator.of(context).push(route);
+    final navigator = _resolveNavigator();
+    if (navigator != null) {
+      await navigator.push(route);
+    } else {
+      debugPrint(
+        'CustomVideoPlayerController: Unable to enter fullscreen because no Navigator was found.',
+      );
+      _isFullscreen = false;
     }
   }
 
@@ -108,8 +130,9 @@ class CustomVideoPlayerController {
     await SystemChrome.setPreferredOrientations(customVideoPlayerSettings
         .deviceOrientationsAfterFullscreen); // reset device orientation values
     _isFullscreen = false;
-    if (context.mounted) {
-      Navigator.of(context).pop();
+    final navigator = _resolveNavigator();
+    if (navigator != null && navigator.canPop()) {
+      navigator.pop();
     }
   }
 

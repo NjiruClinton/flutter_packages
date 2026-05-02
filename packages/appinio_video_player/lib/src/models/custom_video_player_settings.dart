@@ -122,6 +122,13 @@ class CustomVideoPlayerSettings {
   /// UI settings for the video settings popup.
   final CustomVideoPlayerPopupSettings customVideoPlayerPopupSettings;
 
+  /// Optional context that is guaranteed to be under a [Navigator].
+  ///
+  /// Useful when the player is rendered in an overlay or sibling stack that is
+  /// outside the app's [MaterialApp]/[Navigator], but still needs to open
+  /// dialogs or fullscreen routes.
+  final BuildContext? navigatorContext;
+
   /// Callback when "Switch to Audio/Video" is tapped in settings. If null, the option is hidden.
   final VoidCallback? onSwitchToAudioVideoTapped;
 
@@ -210,6 +217,7 @@ class CustomVideoPlayerSettings {
     ),
     this.customVideoPlayerPopupSettings =
         const CustomVideoPlayerPopupSettings(),
+    this.navigatorContext,
     this.onSwitchToAudioVideoTapped,
     this.isAudioMode = false,
     this.seekBackwardIcon = const Icon(Icons.fast_rewind_rounded, color: Colors.white, size: 32),

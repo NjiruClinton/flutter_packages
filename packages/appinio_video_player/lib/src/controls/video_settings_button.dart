@@ -21,9 +21,31 @@ class VideoSettingsButton extends StatelessWidget {
     );
   }
 
+  BuildContext? _resolveNavigatorContext(BuildContext context) {
+    final configuredContext = customVideoPlayerController
+        .customVideoPlayerSettings.navigatorContext;
+
+    return Navigator.maybeOf(context, rootNavigator: true)?.context ??
+        (configuredContext != null
+            ? Navigator.maybeOf(configuredContext, rootNavigator: true)?.context
+            : null) ??
+        Navigator.maybeOf(context)?.context ??
+        (configuredContext != null
+            ? Navigator.maybeOf(configuredContext)?.context
+            : null);
+  }
+
   Future<void> _openVideoSettingsDialog(BuildContext context) async {
+    final dialogContext = _resolveNavigatorContext(context);
+    if (dialogContext == null) {
+      debugPrint(
+        'VideoSettingsButton: Unable to open settings dialog because no Navigator was found.',
+      );
+      return;
+    }
+
     await showGeneralDialog(
-      context: context,
+      context: dialogContext,
       useRootNavigator: true,
       barrierDismissible: true,
       barrierLabel: "custom_video_player_controls_barrier1",

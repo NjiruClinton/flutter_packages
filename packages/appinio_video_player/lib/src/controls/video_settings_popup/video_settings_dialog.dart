@@ -15,6 +15,20 @@ class VideoSettingsDialog extends StatelessWidget {
     required this.updateViewOnClose,
   }) : super(key: key);
 
+  BuildContext? _resolveNavigatorContext(BuildContext context) {
+    final configuredContext =
+        customVideoPlayerController.customVideoPlayerSettings.navigatorContext;
+
+    return Navigator.maybeOf(context, rootNavigator: true)?.context ??
+        (configuredContext != null
+            ? Navigator.maybeOf(configuredContext, rootNavigator: true)?.context
+            : null) ??
+        Navigator.maybeOf(context)?.context ??
+        (configuredContext != null
+            ? Navigator.maybeOf(configuredContext)?.context
+            : null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -85,7 +99,7 @@ class VideoSettingsDialog extends StatelessWidget {
                         .customVideoPlayerSettings
                         .customVideoPlayerPopupSettings,
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(context, rootNavigator: true).pop();
                       customVideoPlayerController
                           .customVideoPlayerSettings.onSwitchToAudioVideoTapped!();
                     },
@@ -102,9 +116,17 @@ class VideoSettingsDialog extends StatelessWidget {
     required BuildContext context,
     required bool isQuality,
   }) async {
-    Navigator.of(context).pop(); //close old popup
+    final dialogContext = _resolveNavigatorContext(context);
+    if (dialogContext == null) {
+      debugPrint(
+        'VideoSettingsDialog: Unable to open sub-settings dialog because no Navigator was found.',
+      );
+      return;
+    }
+
+    Navigator.of(context, rootNavigator: true).pop(); //close old popup
     await showGeneralDialog(
-        context: context,
+        context: dialogContext,
         useRootNavigator: true,
         barrierDismissible: true,
         barrierLabel: "custom_video_player_controls_barrier2",
