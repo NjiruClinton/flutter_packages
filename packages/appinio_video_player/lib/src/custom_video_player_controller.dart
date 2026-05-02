@@ -67,6 +67,11 @@ class CustomVideoPlayerController {
   /// public accessable methods and values for the controller
   final ValueNotifier<bool> playedOnceNotifier = ValueNotifier(false);
 
+  /// Notifier reflecting the current fullscreen state. Listen to this from the
+  /// host app to react to fullscreen transitions (e.g. hiding overlays that
+  /// sit on top of the [Navigator] used to push the fullscreen route).
+  final ValueNotifier<bool> isFullscreenNotifier = ValueNotifier<bool>(false);
+
   Future<void> setFullscreen(
     bool fullscreen,
   ) async {
@@ -76,9 +81,11 @@ class CustomVideoPlayerController {
     }
     if (fullscreen) {
       await _enterFullscreen();
+      isFullscreenNotifier.value = _isFullscreen;
       _updateViewAfterFullscreen?.call();
     } else {
       await _exitFullscreen();
+      isFullscreenNotifier.value = _isFullscreen;
     }
   }
 
@@ -275,6 +282,7 @@ class CustomVideoPlayerController {
     _isPlayingNotifier.dispose();
     _videoProgressNotifier.dispose();
     _playbackSpeedNotifier.dispose();
+    isFullscreenNotifier.dispose();
     if (disposeVideoController) {
       videoPlayerController.dispose();
       if (additionalVideoSources != null) {
