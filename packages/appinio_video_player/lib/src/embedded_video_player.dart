@@ -64,9 +64,17 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
             Thumbnail(
               customVideoPlayerController: widget.customVideoPlayerController,
             ),
-            AllControlsOverlay(
-              customVideoPlayerController: widget.customVideoPlayerController,
-              updateVideoState: _updateVideoState,
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: widget.isFullscreen ? 38 : 0,
+                left: widget.isFullscreen ? 16 : 0,
+                right: widget.isFullscreen ? 16 : 0,
+              ),
+              child: AllControlsOverlay(
+                customVideoPlayerController:
+                    widget.customVideoPlayerController,
+                updateVideoState: _updateVideoState,
+              ),
             ),
             if (widget.customVideoPlayerController.customVideoPlayerSettings
                 .showSeekButtons)
@@ -76,16 +84,31 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
             VolumeControls(
               customVideoPlayerController: widget.customVideoPlayerController,
             ),
-            // Progress bar at the very bottom edge
+            // Progress bar at the very bottom edge — fades in/out together
+            // with the rest of the controls via [areControlsVisible].
             if (widget.customVideoPlayerController.customVideoPlayerSettings
                 .customVideoPlayerProgressBarSettings.showProgressBar)
               Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: CustomVideoPlayerProgressBar(
-                  customVideoPlayerController:
-                      widget.customVideoPlayerController,
+                left: widget.isFullscreen ? 26 : 0,
+                right: widget.isFullscreen ? 26 : 0,
+                bottom: widget.isFullscreen ? 36 : 0,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable:
+                      widget.customVideoPlayerController.areControlsVisible,
+                  builder: (context, visible, child) {
+                    return IgnorePointer(
+                      ignoring: !visible,
+                      child: AnimatedOpacity(
+                        opacity: visible ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: CustomVideoPlayerProgressBar(
+                    customVideoPlayerController:
+                        widget.customVideoPlayerController,
+                  ),
                 ),
               ),
           ],
