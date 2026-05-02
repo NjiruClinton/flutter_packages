@@ -105,6 +105,7 @@ class VideoSettingsDialog extends StatelessWidget {
     Navigator.of(context).pop(); //close old popup
     await showGeneralDialog(
         context: context,
+        useRootNavigator: true,
         barrierDismissible: true,
         barrierLabel: "custom_video_player_controls_barrier2",
         pageBuilder: (context, _, __) {
