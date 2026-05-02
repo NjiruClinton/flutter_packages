@@ -64,9 +64,17 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
             Thumbnail(
               customVideoPlayerController: widget.customVideoPlayerController,
             ),
-            AllControlsOverlay(
-              customVideoPlayerController: widget.customVideoPlayerController,
-              updateVideoState: _updateVideoState,
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: widget.isFullscreen ? 38 : 0,
+                left: widget.isFullscreen ? 16 : 0,
+                right: widget.isFullscreen ? 16 : 0,
+              ),
+              child: AllControlsOverlay(
+                customVideoPlayerController:
+                    widget.customVideoPlayerController,
+                updateVideoState: _updateVideoState,
+              ),
             ),
             if (widget.customVideoPlayerController.customVideoPlayerSettings
                 .showSeekButtons)
@@ -80,9 +88,9 @@ class _EmbeddedVideoPlayerState extends State<EmbeddedVideoPlayer> {
             if (widget.customVideoPlayerController.customVideoPlayerSettings
                 .customVideoPlayerProgressBarSettings.showProgressBar)
               Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
+                left: widget.isFullscreen ? 26 : 0,
+                right: widget.isFullscreen ? 26 : 0,
+                bottom: widget.isFullscreen ? 36 : 0,
                 child: CustomVideoPlayerProgressBar(
                   customVideoPlayerController:
                       widget.customVideoPlayerController,
